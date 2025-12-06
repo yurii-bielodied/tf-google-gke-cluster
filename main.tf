@@ -55,9 +55,8 @@ resource "google_container_node_pool" "this" {
 
 # Module to authenticate with GKE cluster using native Terraform module
 module "gke_auth" {
-  depends_on = [
-    google_container_cluster.this
-  ]
+  depends_on = [google_container_cluster.this]
+
   # Source of the module (Terraform Registry)
   source  = "terraform-google-modules/kubernetes-engine/google//modules/auth"
   version = ">= 24.0.0"
@@ -76,4 +75,13 @@ data "google_container_cluster" "main" {
   name = google_container_cluster.this.name
   # Location (region)
   location = var.GOOGLE_REGION
+}
+
+resource "local_file" "kubeconfig" {
+  content  = module.gke_auth.kubeconfig_raw
+  filename = "${path.module}/kubeconfig"
+}
+
+output "kubeconfig" {
+  value = "${path.module}/kubeconfig"
 }

@@ -16,8 +16,3 @@ output "config_ca" {
 output "name" {
   value = google_container_cluster.this.name
 }
-
-output "kubeconfig_raw" {
-  value     = module.gke_auth.kubeconfig_raw
-  sensitive = true
-}
