@@ -28,6 +28,7 @@ resource "google_container_cluster" "this" {
     workload_metadata_config {
       mode = "GKE_METADATA"
     }
+    disk_size_gb = 50
   }
 }
 
